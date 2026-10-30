@@ -42,7 +42,7 @@ export async function startApplePay(label: string, amount: number): Promise<PayR
       supportedMethods: "https://apple.com/apple-pay",
       data: {
         version: 3,
-        merchantIdentifier: "merchant.com.hairstylist.app",
+        merchantIdentifier: "merchant.com.bands.appointments",
         merchantCapabilities: ["supports3DS"],
         supportedNetworks: ["visa", "masterCard", "amex", "discover"],
         countryCode: "US",

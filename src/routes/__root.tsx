@@ -1,9 +1,8 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
+import { APP_DESCRIPTION, APP_NAME } from "@/lib/brand";
 import appCss from "../styles.css?url";
-
-const APP_NAME = "Hair Stylist";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -14,11 +13,7 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1, viewport-fit=cover",
       },
       { title: APP_NAME },
-      {
-        name: "description",
-        content:
-          "Find local barbers and hair stylists, book a chair, add a tip, and pay with Venmo or Apple Pay.",
-      },
+      { name: "description", content: APP_DESCRIPTION },
       { name: "theme-color", content: "#f3eee6" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "mobile-web-app-capable", content: "yes" },
