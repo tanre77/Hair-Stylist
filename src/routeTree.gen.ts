@@ -10,7 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as StudioRouteImport } from './routes/studio'
 import { Route as VisitsRouteImport } from './routes/visits'
+import { Route as MTokenRouteImport } from './routes/m.$token'
+import { Route as ShopShopIdRouteImport } from './routes/shop.$shopId'
 import { Route as StylistIdRouteImport } from './routes/stylist.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -18,9 +22,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VisitsRoute = VisitsRouteImport.update({
   id: '/visits',
   path: '/visits',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MTokenRoute = MTokenRouteImport.update({
+  id: '/m/$token',
+  path: '/m/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopShopIdRoute = ShopShopIdRouteImport.update({
+  id: '/shop/$shopId',
+  path: '/shop/$shopId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StylistIdRoute = StylistIdRouteImport.update({
@@ -31,31 +55,69 @@ const StylistIdRoute = StylistIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/studio': typeof StudioRoute
   '/visits': typeof VisitsRoute
+  '/m/$token': typeof MTokenRoute
+  '/shop/$shopId': typeof ShopShopIdRoute
   '/stylist/$id': typeof StylistIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/studio': typeof StudioRoute
   '/visits': typeof VisitsRoute
+  '/m/$token': typeof MTokenRoute
+  '/shop/$shopId': typeof ShopShopIdRoute
   '/stylist/$id': typeof StylistIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/studio': typeof StudioRoute
   '/visits': typeof VisitsRoute
+  '/m/$token': typeof MTokenRoute
+  '/shop/$shopId': typeof ShopShopIdRoute
   '/stylist/$id': typeof StylistIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/visits' | '/stylist/$id'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/studio'
+    | '/visits'
+    | '/m/$token'
+    | '/shop/$shopId'
+    | '/stylist/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/visits' | '/stylist/$id'
-  id: '__root__' | '/' | '/visits' | '/stylist/$id'
+  to:
+    | '/'
+    | '/login'
+    | '/studio'
+    | '/visits'
+    | '/m/$token'
+    | '/shop/$shopId'
+    | '/stylist/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/studio'
+    | '/visits'
+    | '/m/$token'
+    | '/shop/$shopId'
+    | '/stylist/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LoginRoute: typeof LoginRoute
+  StudioRoute: typeof StudioRoute
   VisitsRoute: typeof VisitsRoute
+  MTokenRoute: typeof MTokenRoute
+  ShopShopIdRoute: typeof ShopShopIdRoute
   StylistIdRoute: typeof StylistIdRoute
 }
 
@@ -68,11 +130,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/visits': {
       id: '/visits'
       path: '/visits'
       fullPath: '/visits'
       preLoaderRoute: typeof VisitsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/m/$token': {
+      id: '/m/$token'
+      path: '/m/$token'
+      fullPath: '/m/$token'
+      preLoaderRoute: typeof MTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop/$shopId': {
+      id: '/shop/$shopId'
+      path: '/shop/$shopId'
+      fullPath: '/shop/$shopId'
+      preLoaderRoute: typeof ShopShopIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stylist/$id': {
@@ -87,7 +177,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LoginRoute: LoginRoute,
+  StudioRoute: StudioRoute,
   VisitsRoute: VisitsRoute,
+  MTokenRoute: MTokenRoute,
+  ShopShopIdRoute: ShopShopIdRoute,
   StylistIdRoute: StylistIdRoute,
 }
 export const routeTree = rootRouteImport
