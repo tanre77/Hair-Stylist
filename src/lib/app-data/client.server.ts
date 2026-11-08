@@ -279,7 +279,7 @@ function tokenIdentityKey(token: string): string {
         }
       }
     } catch {
-      /* Ignore a token that is not a JSON object and hash the raw value. */
+      // Unreadable payload: fall through and hash the raw token.
     }
   }
   return createHash("sha256").update(token).digest("base64url");

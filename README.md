@@ -1,5 +1,7 @@
 # B and S
 
+Languages: **[English](README.md)** · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português (Brasil)](README.pt-BR.md) · [Italiano](README.it.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [العربية](README.ar.md) · [हिन्दी](README.hi.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [Türkçe](README.tr.md) · [Bahasa Indonesia](README.id.md) · [Polski](README.pl.md) · [Nederlands](README.nl.md) · [Українська](README.uk.md) · [Filipino](README.fil.md) · [Kiswahili](README.sw.md)
+
 Barbers and Salons. Book a chair, pick a service and a person or the first open time, and pay a deposit or the full visit.
 
 Sample shops sit around Powell and Columbus. In demo mode the book, the payments, and the studio all stay on this device.
@@ -38,3 +40,5 @@ Card numbers are checked in the browser and thrown away. The book stores a token
 ## Install
 
 On iPhone: Share, then Add to Home Screen. On Android: browser menu, then Install app.
+
+For translators: [docs/TRANSLATIONS.md](docs/TRANSLATIONS.md).
