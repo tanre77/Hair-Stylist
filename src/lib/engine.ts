@@ -166,6 +166,7 @@ export type BookInput = {
   payment: Omit<Payment, "amount" | "tip">;
   now: Date;
   receiptId: string;
+  chargeTicket?: string;
 };
 
 export type BookResult =
@@ -266,6 +267,7 @@ export function bookAppointment(state: BookState, input: BookInput): BookResult 
       amount: priced.dueToday,
       tip: priced.tip,
     },
+    ...(input.chargeTicket ? { chargeTicket: input.chargeTicket } : {}),
     createdAt: input.now.toISOString(),
   };
   const receipt = makeReceipt({

@@ -10,7 +10,7 @@ import { openSlots, policyFor, servicesForShop, shopById, staffForShop } from "@
 import { formatMiles, milesBetween, useLocation } from "@/lib/geo";
 import { money } from "@/lib/money";
 import { paymentMode } from "@/lib/pay-config";
-import { applePayAvailable, openVenmo, startApplePay, validVenmo } from "@/lib/payments";
+import { liveApplePayBlock, openVenmo, validVenmo } from "@/lib/payments";
 import { checkoutDemo, checkoutLive, useStore } from "@/lib/store";
 import { durationLabel, upcomingDays } from "@/lib/time";
 import { publicEnv, useDemoMode } from "@/lib/use-demo";
@@ -399,33 +399,8 @@ export function ShopBook({ shopId, initialStaffId }: { shopId: string; initialSt
                         );
                         return;
                       }
-                      const result = applePayAvailable()
-                        ? await startApplePay(`${APP_NAME} · ${shop.name}`, quote.dueToday)
-                        : "unavailable";
-                      if (result === "cancelled") {
-                        setError("Apple Pay was cancelled. The chair is not held.");
-                        return;
-                      }
-                      finish(
-                        checkoutLive({
-                          shopId: shop.id,
-                          staffId: slotStaff,
-                          serviceId: service.id,
-                          startIso: slotIso,
-                          client: guest,
-                          payChoice: policy.allowDeposit ? choice : "full",
-                          tip: quote.tip,
-                          payment: {
-                            method: "apple",
-                            status: result === "paid" ? "paid" : "awaiting",
-                            provider: "apple",
-                            reference: `apple_${Date.now()}`,
-                          },
-                        }),
-                      );
-                      if (result !== "paid") {
-                        setError("Apple Pay needs Safari on iPhone. The visit is held.");
-                      }
+                      setError(liveApplePayBlock());
+                      return;
                     } finally {
                       setBusy(false);
                     }
@@ -435,14 +410,23 @@ export function ShopBook({ shopId, initialStaffId }: { shopId: string; initialSt
                   if (!requireSlot() || !slotIso || !slotStaff || mode.demo) return;
                   setBusy(true);
                   const provider = mode.provider;
+                  const bookingId = crypto.randomUUID();
+                  const manageToken = crypto.randomUUID();
                   void import("@/lib/server-fns")
                     .then(({ chargeCardPayment }) =>
                       chargeCardPayment({
                         data: {
                           provider,
+                          shopId: shop.id,
+                          serviceId: service.id,
+                          payChoice: policy.allowDeposit ? choice : "full",
+                          tipCents: Math.round(quote.tip * 100),
                           amountCents: Math.round(quote.dueToday * 100),
                           source: source.source,
                           idempotencyKey: crypto.randomUUID(),
+                          bookingId,
+                          manageToken,
+                          startIso: slotIso,
                         },
                       }),
                     )
@@ -453,6 +437,9 @@ export function ShopBook({ shopId, initialStaffId }: { shopId: string; initialSt
                       }
                       finish(
                         checkoutLive({
+                          id: bookingId,
+                          token: manageToken,
+                          chargeTicket: charged.ticket,
                           shopId: shop.id,
                           staffId: slotStaff,
                           serviceId: service.id,

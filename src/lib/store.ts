@@ -18,7 +18,15 @@ import {
 } from "./engine";
 import { createSeed } from "./seed";
 
-export type OwnerSession = { email: string; name: string };
+export type OwnerSession = { email: string; name: string; token: string };
+
+function readOwner(value: unknown): OwnerSession | null {
+  if (!value || typeof value !== "object") return null;
+  const owner = value as Partial<OwnerSession>;
+  if (typeof owner.email !== "string" || typeof owner.name !== "string" || typeof owner.token !== "string") return null;
+  if (owner.token.length < 20) return null;
+  return { email: owner.email, name: owner.name, token: owner.token };
+}
 
 export type Data = {
   ready: boolean;
@@ -90,7 +98,7 @@ export function hydrateStore() {
       clientPhone: typeof parsed.clientPhone === "string" ? parsed.clientPhone : "",
       savedShopIds: Array.isArray(parsed.savedShopIds) ? parsed.savedShopIds.filter((id) => typeof id === "string") : [],
       installDismissed: Boolean(parsed.installDismissed),
-      owner: parsed.owner && typeof parsed.owner.email === "string" ? parsed.owner : null,
+      owner: readOwner(parsed.owner),
     });
   } catch {
     write({ ...EMPTY, ready: true, book: freshSeed() });
@@ -152,12 +160,18 @@ export function checkoutDemo(
   return result;
 }
 
-export function checkoutLive(input: Omit<BookInput, "id" | "token" | "receiptId" | "clientId" | "now"> & { now?: Date }) {
+export function checkoutLive(
+  input: Omit<BookInput, "id" | "token" | "receiptId" | "clientId" | "now"> & {
+    now?: Date;
+    id?: string;
+    token?: string;
+  },
+) {
   const now = input.now ?? new Date();
   const result = bookAppointment(data.book, {
     ...input,
-    id: id("apt"),
-    token: id("m"),
+    id: input.id ?? id("apt"),
+    token: input.token ?? id("m"),
     receiptId: id("rcpt"),
     clientId: id("client"),
     now,

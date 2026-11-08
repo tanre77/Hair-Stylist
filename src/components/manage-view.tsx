@@ -200,6 +200,10 @@ export function ManageView({ token }: { token: string }) {
                     let refundReference: string | undefined;
                     const provider = appointment.payment.provider;
                     if (!demo && refund > 0 && (provider === "stripe" || provider === "square")) {
+                      if (!appointment.chargeTicket) {
+                        setError("This visit has no payment record the shop can refund.");
+                        return;
+                      }
                       const { refundCardPayment } = await import("@/lib/server-fns");
                       const refunded = await refundCardPayment({
                         data: {
@@ -207,6 +211,9 @@ export function ManageView({ token }: { token: string }) {
                           reference: appointment.payment.reference,
                           amountCents: Math.round(refund * 100),
                           idempotencyKey: crypto.randomUUID(),
+                          ticket: appointment.chargeTicket,
+                          manageToken: token,
+                          ...(store.owner?.token ? { ownerToken: store.owner.token } : {}),
                         },
                       });
                       if (!refunded.ok) {

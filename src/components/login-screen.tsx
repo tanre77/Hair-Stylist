@@ -35,7 +35,7 @@ export function LoginScreen({ demo }: { demo: boolean }) {
               setError(result.error);
               return;
             }
-            setOwner({ email: result.email, name: result.name });
+            setOwner({ email: result.email, name: result.name, token: result.token });
             void navigate({ to: "/studio" });
           })
           .catch(() => setError("The studio couldn't be reached. Try again."))

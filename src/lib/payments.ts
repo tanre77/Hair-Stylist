@@ -35,6 +35,14 @@ export function applePayAvailable() {
   }
 }
 
+/**
+ * Live mode has no Apple Pay charge. The sheet only confirms a demo visit,
+ * and it must not be recorded as paid when a processor key is configured.
+ */
+export function liveApplePayBlock(): string {
+  return "Apple Pay is a demo payment. Live mode doesn't mark a visit paid until a processor charges it.";
+}
+
 export async function startApplePay(label: string, amount: number): Promise<PayResult> {
   if (typeof PaymentRequest === "undefined") return "unavailable";
   const methods: PaymentMethodData[] = [

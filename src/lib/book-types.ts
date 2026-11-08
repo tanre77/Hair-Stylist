@@ -87,6 +87,8 @@ export type Appointment = {
   balanceAtVisit: number;
   status: AppointmentStatus;
   payment: Payment;
+  /** Server-signed record of a live card charge. Required to refund it. */
+  chargeTicket?: string;
   createdAt: string;
   cancelledAt?: string;
   refundAmount?: number;

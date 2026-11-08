@@ -12,14 +12,16 @@ Sample shops sit around Powell and Columbus. In demo mode the book, the payments
 - Pick a person or any available chair
 - Take a real open slot that won't double-book
 - Pay a deposit or the full visit, with a preset or custom tip
-- Pay by card, Venmo, or Apple Pay
+- Pay by card or Venmo. Apple Pay is a labeled demo payment and stays off when live card keys are on
 - Open a visit link to reschedule or cancel
-- Refund a card payment cancelled inside the shop's window
+- Refund a live card payment only from that visit link, or from a signed-in owner, and only inside the shop's window
 - Open the studio: day and week calendar, staff hours, services, blocked time, clients, and cancellation and no-show policies
 
 Demo mode is the default when card keys are missing. It is also on when `VITE_DEMO_MODE=1` or the page is opened with `?demo=1`. Visitors come in as a demo guest. There is no sign-in screen. Set `VITE_DEMO_MODE=0` and add the keys below to use live card payments and owner sign-in.
 
 Card numbers are checked in the browser and thrown away. The book stores a token, brand, and last four digits only.
+
+A live card charge is priced on the server from the published service, the shop's deposit policy, and a tip of at most $500. An amount sent by the browser that doesn't match is refused. A refund needs the signed payment record plus the visit link or an owner session, and it can't exceed what was paid.
 
 ## Environment
 
@@ -34,6 +36,8 @@ Card numbers are checked in the browser and thrown away. The book stores a token
 | `OWNER_EMAIL` | Server | Studio sign-in, only when demo mode is off. |
 | `OWNER_PASSWORD` | Server | Studio sign-in password. |
 | `OWNER_NAME` | Server | Name shown after sign-in. |
+| `OWNER_SESSION_SECRET` | Server | Optional. Signs the owner session. Falls back to the owner password. |
+| `PAYMENT_TICKET_SECRET` | Server | Optional. Signs the payment record used for refunds. Falls back to the processor secret. |
 
 `?demo=1` turns demo mode on even when keys are present.
 

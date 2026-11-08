@@ -29,6 +29,7 @@ export function squareApiHost(applicationId: string | undefined, override?: stri
   return "https://connect.squareup.com";
 }
 
+/** `amountCents` is charged as given. Callers must pass a server-computed amount. */
 export async function chargeWithProvider(
   input: LiveChargeInput,
   creds: LiveCreds,

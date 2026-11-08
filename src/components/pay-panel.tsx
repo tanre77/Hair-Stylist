@@ -198,18 +198,20 @@ export function PayPanel({
         />
       ) : null}
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className={cn("grid gap-2", mode.demo ? "grid-cols-2" : "grid-cols-1")}>
         <button type="button" disabled={busy} onClick={() => onWallet("venmo")} className={quietClass}>
           Venmo
         </button>
-        <button type="button" disabled={busy} onClick={() => onWallet("apple")} className={cn(quietClass, "bg-ink text-foam ring-0")}>
-          Apple Pay
-        </button>
+        {mode.demo ? (
+          <button type="button" disabled={busy} onClick={() => onWallet("apple")} className={cn(quietClass, "bg-ink text-foam ring-0")}>
+            Apple Pay (demo)
+          </button>
+        ) : null}
       </div>
       <p className="text-xs leading-5 text-stone">
         {mode.demo
-          ? "Demo payments confirm on this device. Nothing is sent to a bank, and the card number is discarded after it is checked."
-          : "Venmo opens with the amount filled in. Apple Pay uses the payment sheet on iPhone. Cards are handled by the processor, not stored here."}
+          ? "Demo payments, including Apple Pay, confirm on this device. Nothing is sent to a bank, and the card number is discarded after it is checked."
+          : "Venmo opens with the amount filled in. Cards are handled by the processor, not stored here. Apple Pay stays off until a processor charges it."}
       </p>
     </div>
   );
