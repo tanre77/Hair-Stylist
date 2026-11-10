@@ -1,31 +1,32 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Profile } from "@/components/profile";
 import { Shell } from "@/components/shell";
-import { getStylist } from "@/lib/catalog";
+import { ShopBook } from "@/components/shop-book";
+import { APP_NAME } from "@/lib/brand";
+import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/stylist/$id")({
   component: StylistPage,
-  head: ({ params }) => {
-    const stylist = getStylist(params.id);
-    return {
-      meta: [{ title: stylist ? `${stylist.name} · Hair Stylist` : "Hair Stylist" }],
-    };
-  },
+  head: () => ({
+    meta: [{ title: `Book · ${APP_NAME}` }],
+  }),
 });
 
 function StylistPage() {
   const { id } = Route.useParams();
-  const stylist = getStylist(id);
+  const store = useStore();
+  const member = store.book.staff.find((person) => person.id === id);
 
   return (
     <Shell>
-      {stylist ? (
-        <Profile stylist={stylist} />
+      {!store.ready ? (
+        <p className="text-sm text-stone">Opening the book…</p>
+      ) : member ? (
+        <ShopBook shopId={member.shopId} initialStaffId={member.id} />
       ) : (
         <div className="py-16 text-center">
-          <h1 className="font-display text-4xl">That chair isn't listed.</h1>
+          <h1 className="font-display text-4xl">That person isn't on the book.</h1>
           <Link to="/" className="mt-4 inline-flex h-12 items-center text-oxblood">
-            Back to discover
+            Back to shops
           </Link>
         </div>
       )}

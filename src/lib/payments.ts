@@ -35,6 +35,14 @@ export function applePayAvailable() {
   }
 }
 
+/**
+ * Live mode has no Apple Pay charge. The sheet only confirms a demo visit,
+ * and it must not be recorded as paid when a processor key is configured.
+ */
+export function liveApplePayBlock(): string {
+  return "Apple Pay is a demo payment. Live mode doesn't mark a visit paid until a processor charges it.";
+}
+
 export async function startApplePay(label: string, amount: number): Promise<PayResult> {
   if (typeof PaymentRequest === "undefined") return "unavailable";
   const methods: PaymentMethodData[] = [
@@ -42,7 +50,7 @@ export async function startApplePay(label: string, amount: number): Promise<PayR
       supportedMethods: "https://apple.com/apple-pay",
       data: {
         version: 3,
-        merchantIdentifier: "merchant.com.hairstylist.app",
+        merchantIdentifier: "merchant.com.bands.appointments",
         merchantCapabilities: ["supports3DS"],
         supportedNetworks: ["visa", "masterCard", "amex", "discover"],
         countryCode: "US",

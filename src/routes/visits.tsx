@@ -1,18 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Shell } from "@/components/shell";
-import { Visits } from "@/components/visits-view";
+import { VisitsView } from "@/components/visits-view";
+import { APP_NAME } from "@/lib/brand";
 
 export const Route = createFileRoute("/visits")({
   component: VisitsPage,
   head: () => ({
-    meta: [{ title: "Visits · Hair Stylist" }],
+    meta: [{ title: `Visits · ${APP_NAME}` }],
   }),
 });
 
 function VisitsPage() {
   return (
     <Shell>
-      <Visits />
+      <VisitsView />
     </Shell>
   );
 }

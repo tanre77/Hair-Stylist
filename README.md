@@ -1,19 +1,45 @@
-# Hair Stylist
+# B and S
 
 Languages: **[English](README.md)** · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português (Brasil)](README.pt-BR.md) · [Italiano](README.it.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [العربية](README.ar.md) · [हिन्दी](README.hi.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [Türkçe](README.tr.md) · [Bahasa Indonesia](README.id.md) · [Polski](README.pl.md) · [Nederlands](README.nl.md) · [Українська](README.uk.md) · [Filipino](README.fil.md) · [Kiswahili](README.sw.md)
 
-Find a local barber or hair stylist, book a chair, add a tip, and pay with Venmo or Apple Pay.
+Barbers and Salons. Book a chair, pick a service and a person or the first open time, and pay a deposit or the full visit.
 
-The chairs in this build are sample shops around Powell and Columbus, Ohio. Swap a stylist's Venmo username before you send money — the listed names are placeholders.
+Sample shops sit around Powell and Columbus. In demo mode the book, the payments, and the studio all stay on this device.
 
 ## What you can do
 
-- Allow location, or pick a neighborhood, and sort chairs by distance
-- Save a stylist, choose a service, and take an open time
-- Add a tip (15%, 18%, 20%, 25%, or a custom amount) at checkout
-- Pay the total in Venmo, which opens with the amount and note filled in
-- Pay with Apple Pay on iPhone via the Payment Request sheet
-- Tip again later from Visits
+- Choose a service with a price, a duration, and buffers
+- Pick a person or any available chair
+- Take a real open slot that won't double-book
+- Pay a deposit or the full visit, with a preset or custom tip
+- Pay by card or Venmo. Apple Pay is a labeled demo payment and stays off when live card keys are on
+- Open a visit link to reschedule or cancel
+- Refund a live card payment only from that visit link, or from a signed-in owner, and only inside the shop's window
+- Open the studio: day and week calendar, staff hours, services, blocked time, clients, and cancellation and no-show policies
+
+Demo mode is the default when card keys are missing. It is also on when `VITE_DEMO_MODE=1` or the page is opened with `?demo=1`. Visitors come in as a demo guest. There is no sign-in screen. Set `VITE_DEMO_MODE=0` and add the keys below to use live card payments and owner sign-in.
+
+Card numbers are checked in the browser and thrown away. The book stores a token, brand, and last four digits only.
+
+A live card charge is priced on the server from the published service, the shop's deposit policy, and a tip of at most $500. An amount sent by the browser that doesn't match is refused. A refund needs the signed payment record plus the visit link or an owner session, and it can't exceed what was paid.
+
+## Environment
+
+| Variable | Where | Purpose |
+| --- | --- | --- |
+| `VITE_DEMO_MODE` | Public | `1` forces demo mode. `0` forces it off. Unset follows the keys. |
+| `VITE_STRIPE_PUBLISHABLE_KEY` | Public | Card field. Stripe is used when this is set. |
+| `STRIPE_SECRET_KEY` | Server | Creates and refunds charges. Never exposed to the browser. |
+| `VITE_SQUARE_APPLICATION_ID` | Public | Web payments application id, used when Stripe is unset. |
+| `VITE_SQUARE_LOCATION_ID` | Public | Location for that application. |
+| `SQUARE_ACCESS_TOKEN` | Server | Charges and refunds. Never exposed to the browser. |
+| `OWNER_EMAIL` | Server | Studio sign-in, only when demo mode is off. |
+| `OWNER_PASSWORD` | Server | Studio sign-in password. |
+| `OWNER_NAME` | Server | Name shown after sign-in. |
+| `OWNER_SESSION_SECRET` | Server | Optional. Signs the owner session. Falls back to the owner password. |
+| `PAYMENT_TICKET_SECRET` | Server | Optional. Signs the payment record used for refunds. Falls back to the processor secret. |
+
+`?demo=1` turns demo mode on even when keys are present.
 
 ## Install
 
