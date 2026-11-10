@@ -1,10 +1,10 @@
 # Translations
 
-English is the source of truth for Hair Stylist documentation. The files named `README.<lang>.md` are machine-assisted translations. If a translation and `README.md` disagree, follow `README.md`.
+English is the source of truth for B and S documentation. The files named `README.<lang>.md` are machine-assisted translations. If a translation and `README.md` disagree, follow `README.md`.
 
 ## What is translated
 
-On this branch the only user-facing product document is the root README. Each translation sits next to it:
+The only user-facing product document is the root README. Each translation sits next to it:
 
 | Language | File |
 | --- | --- |
@@ -39,10 +39,10 @@ There is no separate guides or `docs/` manual to translate. This file is the mai
 3. Keep the short machine-assisted note at the top of each translation, in that language. It must say that the translation is machine-assisted and that English is authoritative. Do not add that note to `README.md`.
 4. Keep the language line near the top of `README.md` and every translation. It must link every file in the table. Use a same-folder relative link (`README.fr.md`), not a URL. Bold only the current language, as `**[Français](README.fr.md)**`. Do not wrap the whole line in bold — a second `**` pair will mark the rest of the line as bold.
 5. Leave these untranslated so they stay accurate and clickable:
-   - code blocks, commands, file paths, and URLs
+   - code blocks, commands, file paths, URLs, and environment variable names
    - badges, if any are added later
-   - product and platform names: Hair Stylist, Venmo, Apple Pay, Payment Request, Visits, iPhone, Android
-   - place names used to find the sample shops: Powell, Columbus, Ohio
+   - product and platform names: B and S, Stripe, Venmo, Apple Pay, iPhone, Android
+   - place names used to find the sample shops: Powell, Columbus
 6. From a translated file, relative links must still resolve. These READMEs live in the repository root, next to `README.md`, so a link written `README.md` or `docs/TRANSLATIONS.md` is correct in every README. From this file, the same targets are `../README.md` and `TRANSLATIONS.md`.
 7. Arabic only: keep the prose inside `<div dir="rtl" lang="ar">`. Put Latin names inside `<span dir="ltr">...</span>`. Leave the language line outside that div so the links stay left to right. The line should start with a left-to-right mark (U+200E) so the Arabic label does not reverse the links.
 
